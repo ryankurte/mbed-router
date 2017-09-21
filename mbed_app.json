@@ -5,12 +5,12 @@
              "value": 50000
         },
         "radio-type":{
-            "help": "options are ATMEL, MCR20, SPIRIT1",
-            "value": "ATMEL"
+            "help": "options are ATMEL, MCR20, SPIRIT1, EFM32",
+            "value": "5"
         },
         "backhaul-driver": {
             "help": "options are ETH, SLIP",
-            "value": "ETH"
+            "value": "SLIP"
         },
         "mesh-mode": {
             "help": "Mesh networking mode. Options are LOWPAN_ND and THREAD",
@@ -22,7 +22,7 @@
         },
         "backhaul-mac": "{0x02, 0x00, 0x00, 0x00, 0x00, 0x01}",
         "slip_hw_flow_control": "false",
-        "slip_serial_baud_rate": "921600",
+        "slip_serial_baud_rate": "115200",
         "debug-trace": "false",
         "defined-BR-config": "true",
         "security-mode": "NONE",
@@ -31,7 +31,7 @@
         "pana-mode": "",
         "tls-psk-key": "{0xcf, 0xce, 0xcd, 0xcc, 0xcb, 0xca, 0xc9, 0xc8, 0xc7, 0xc6, 0xc5, 0xc4, 0xc3, 0xc2, 0xc1, 0xc0}",
         "tls-psk-key-id": 1,
-        "pan-id": "0x0691",
+        "pan-id": "0xFFFF",
         "network-id": "network000000000",
         "beacon-protocol-id": 4,
         "prefix": "fd00:db8::",
@@ -55,12 +55,12 @@
         "rpl-lifetime-unit": 60,
         "rpl-pcs": 1,
         "rpl-ocp": 1,
-        "multicast-addr": "ff05::7",
-        "LED": "NC",
-        "SERIAL_TX": "NC",
-        "SERIAL_RX": "NC",
+        "LED":  "LED1",
         "SERIAL_CTS": "NC",
-        "SERIAL_RTS": "NC"
+        "SERIAL_RTS": "NC",
+        "debug-trace": 1,
+        "heap-size": 100000,
+        "trace-level": "INFO"
     },
     "target_overrides": {
         "*": {
@@ -68,18 +68,25 @@
             "target.features_remove": ["LWIP"],
             "mbed-trace.enable": 1,
             "nanostack.configuration": "lowpan_border_router",
+            "mbed-mesh-api.6lowpan-nd-device-type": "NET_6LOWPAN_ROUTER",
+            "mbed-mesh-api.6lowpan-nd-channel": 12,
+            "mbed-mesh-api.6lowpan-nd-channel-page": 2,
+            "mbed-mesh-api.6lowpan-nd-channel-mask": "(1<<12)",
+            "mbed-mesh-api.6lowpan-nd-security-mode": "NONE",
+            "mbed-mesh-api.heap-size": 100000,
             "platform.stdio-convert-newlines": true,
             "platform.stdio-baud-rate": 115200
-        },
-        "K64F": {
-            "LED": "LED_GREEN",
-            "SERIAL_TX": "PTE0",
-            "SERIAL_RX": "PTE1",
-            "SERIAL_CTS": "PTE2",
-            "SERIAL_RTS": "PTE3"
-        },
-        "K66F": {
-            "LED": "LED_GREEN"
         }
-    }
+    },
+    "macros": [
+        "DEBUG=1",
+        "MBEDTLS_USER_CONFIG_FILE=\"mbedtls_config.h\"",
+        "MBEDTLS_ENTROPY_HARDWARE_ALT",
+        "DEVICE_TRNG=1",
+        "DEBUG_ISR_STACK_USAGE=1", 
+        "MBED_HEAP_STATS_ENABLED=1", 
+        "MBED_STACK_STATS_ENABLED=1",
+        "MBED_MEM_TRACING_ENABLED",
+        "YOTTA_CFG_MBED_TRACE=1"
+    ]
 }

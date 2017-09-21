@@ -33,6 +33,7 @@
 #include "ns_trace.h"
 #define TRACE_GROUP "brro"
 
+
 #define NR_BACKHAUL_INTERFACE_PHY_DRIVER_READY 2
 #define NR_BACKHAUL_INTERFACE_PHY_DOWN  3
 
