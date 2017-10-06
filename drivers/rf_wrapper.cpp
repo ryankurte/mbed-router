@@ -5,10 +5,12 @@
 #include "rf_wrapper.h"
 
 // Must be defined for next preprocessor tests to work
-#define ATMEL       0
-#define MCR20       1
-#define NCS36510    2
-#define SPIRIT1     3 
+#define NONE        0
+#define ATMEL       1
+#define MCR20       2
+#define NCS36510    3
+#define SPIRIT1     4 
+#define EFR32       5
 
 #if MBED_CONF_APP_RADIO_TYPE == ATMEL
 #include "NanostackRfPhyAtmel.h"
@@ -20,7 +22,12 @@ NanostackRfPhyMcr20a rf_phy(MCR20A_SPI_MOSI, MCR20A_SPI_MISO, MCR20A_SPI_SCLK, M
 #elif MBED_CONF_APP_RADIO_TYPE == SPIRIT1
 #include "NanostackRfPhySpirit1.h"
 NanostackRfPhySpirit1 rf_phy(SPIRIT1_SPI_MOSI, SPIRIT1_SPI_MISO, SPIRIT1_SPI_SCLK,
-			     SPIRIT1_DEV_IRQ, SPIRIT1_DEV_CS, SPIRIT1_DEV_SDN, SPIRIT1_BRD_LED);
+                 SPIRIT1_DEV_IRQ, SPIRIT1_DEV_CS, SPIRIT1_DEV_SDN, SPIRIT1_BRD_LED);
+#elif MBED_CONF_APP_RADIO_TYPE == EFR32
+#include "NanostackRfPhyEfr32.h"
+NanostackRfPhyEfr32 rf_phy;
+#else
+#error "No MBED_CONF_APP_RADIO_TYPE defined"
 #endif //MBED_CONF_APP_RADIO_TYPE
 
 extern "C" int8_t rf_device_register()

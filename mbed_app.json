@@ -5,12 +5,12 @@
              "value": 50000
         },
         "radio-type":{
-            "help": "options are ATMEL, MCR20, SPIRIT1",
-            "value": "ATMEL"
+            "help": "options are ATMEL, MCR20, SPIRIT1, EFR32",
+            "value": "EFR32"
         },
         "backhaul-driver": {
             "help": "options are ETH, SLIP",
-            "value": "ETH"
+            "value": "SLIP"
         },
         "mesh-mode": {
             "help": "Mesh networking mode. Options are LOWPAN_ND and THREAD",
