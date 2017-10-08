@@ -1,0 +1,9 @@
+ip ${IP}
+h
+r
+device ${DEVICE}
+speed 4000
+loadbin ${BIN} 0x00000000
+verifybin ${BIN}, 0x00000000
+r
+qc

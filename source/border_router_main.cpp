@@ -159,3 +159,56 @@ static void app_heap_error_handler(heap_fail_t event)
     while (1);
 }
 
+
+void os_error (uint32_t error_code) {
+    printf("OS Error %u\n", error_code);
+
+    __asm__("BKPT #0");
+    while(1);
+}
+
+
+void HardFault_Handler(void) {
+    
+    SCB_Type* scb = SCB;
+    (void*)scb;
+
+    if (SCB->HFSR & SCB_HFSR_FORCED_Msk) {
+
+        // Forced fault
+        size_t mmu_fault = (SCB->CFSR >> 0) & 0xFF;
+        if(SCB->CFSR & SCB_CFSR_MMARVALID_Msk)       __asm("BKPT #0");
+        if(SCB->CFSR & SCB_CFSR_MLSPERR_Msk)         __asm("BKPT #0");
+        if(SCB->CFSR & SCB_CFSR_MSTKERR_Msk)         __asm("BKPT #0");
+        if(SCB->CFSR & SCB_CFSR_MUNSTKERR_Msk)       __asm("BKPT #0");
+        if(SCB->CFSR & SCB_CFSR_DACCVIOL_Msk)        __asm("BKPT #0");
+        if(SCB->CFSR & SCB_CFSR_IACCVIOL_Msk)        __asm("BKPT #0");
+
+        size_t bus_fault = (SCB->CFSR >> 8) & 0xFF;
+        if (SCB->CFSR & SCB_CFSR_BFARVALID_Msk)     __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_LSPERR_Msk)        __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_STKERR_Msk)        __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_UNSTKERR_Msk)      __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_IMPRECISERR_Msk)   __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_PRECISERR_Msk)     __asm("BKPT #0");
+        if (SCB->CFSR & SCB_CFSR_IBUSERR_Msk)       __asm("BKPT #0");
+
+        size_t usage_fault = (SCB->CFSR >> 16) & 0xFFF;
+        if (SCB->CFSR & SCB_CFSR_DIVBYZERO_Msk)   __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_UNALIGNED_Msk)   __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_NOCP_Msk)        __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_INVPC_Msk)       __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_INVSTATE_Msk)    __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_UNDEFINSTR_Msk)  __asm("BKPT 0");
+
+        __asm("BKPT #0");
+
+    } else if (SCB->HFSR & SCB_HFSR_VECTTBL_Msk) {
+        // Vector table bus fault
+
+        __asm("BKPT #0");
+    }
+
+    __asm("BKPT #0");
+    while(1);
+}
