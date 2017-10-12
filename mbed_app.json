@@ -82,7 +82,6 @@
             "LED": "LED_GREEN"
         },
         "EFR32FG12_SLWRB4254A": {
-            "mbed-mesh-api.heap-size": 128000,
             "LED": "LED1",
             "SERIAL_TX": "PA2",
             "SERIAL_RX": "PA3"

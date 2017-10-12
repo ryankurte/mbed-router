@@ -31,7 +31,8 @@ static uint8_t app_stack_heap[APP_DEFINED_HEAP_SIZE];
 static uint8_t mac[6] = {0};
 static mem_stat_t heap_info;
 
-static DigitalOut led1(MBED_CONF_APP_LED);
+static DigitalOut led1(LED0);
+static DigitalOut led2(LED1);
 
 static Ticker led_ticker;
 
@@ -107,8 +108,8 @@ int main(int argc, char **argv)
     ns_hal_init(app_stack_heap, APP_DEFINED_HEAP_SIZE, app_heap_error_handler, &heap_info);
 
     mbed_trace_init(); // set up the tracing library
-    mbed_trace_print_function_set(trace_printer);
-    mbed_trace_config_set(TRACE_MODE_COLOR | APP_TRACE_LEVEL | TRACE_CARRIAGE_RETURN);
+    //mbed_trace_print_function_set(trace_printer);
+    //mbed_trace_config_set(TRACE_MODE_COLOR | APP_TRACE_LEVEL | TRACE_CARRIAGE_RETURN);
 
 
 #define BOARD 0
@@ -173,6 +174,9 @@ void HardFault_Handler(void) {
     SCB_Type* scb = SCB;
     (void*)scb;
 
+    led1 = 1;
+    led2 = 1;
+
     if (SCB->HFSR & SCB_HFSR_FORCED_Msk) {
 
         // Forced fault
@@ -194,12 +198,12 @@ void HardFault_Handler(void) {
         if (SCB->CFSR & SCB_CFSR_IBUSERR_Msk)       __asm("BKPT #0");
 
         size_t usage_fault = (SCB->CFSR >> 16) & 0xFFF;
-        if (SCB->CFSR & SCB_CFSR_DIVBYZERO_Msk)   __asm("BKPT 0");
-        if (SCB->CFSR & SCB_CFSR_UNALIGNED_Msk)   __asm("BKPT 0");
-        if (SCB->CFSR & SCB_CFSR_NOCP_Msk)        __asm("BKPT 0");
-        if (SCB->CFSR & SCB_CFSR_INVPC_Msk)       __asm("BKPT 0");
-        if (SCB->CFSR & SCB_CFSR_INVSTATE_Msk)    __asm("BKPT 0");
-        if (SCB->CFSR & SCB_CFSR_UNDEFINSTR_Msk)  __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_DIVBYZERO_Msk)     __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_UNALIGNED_Msk)     __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_NOCP_Msk)          __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_INVPC_Msk)         __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_INVSTATE_Msk)      __asm("BKPT 0");
+        if (SCB->CFSR & SCB_CFSR_UNDEFINSTR_Msk)    __asm("BKPT 0");
 
         __asm("BKPT #0");
 
