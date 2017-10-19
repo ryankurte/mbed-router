@@ -21,7 +21,8 @@
 #include "ns_hal_init.h"
 #include "cmsis_os.h"
 #include "arm_hal_interrupt.h"
-
+#include "mbed_mem_trace.h"
+#include "mbed_stats.h"
 
 #include "mbed_trace.h"
 #define TRACE_GROUP "app"
@@ -49,6 +50,12 @@ static void toggle_led1()
 static void trace_printer(const char *str)
 {
     printf("%s\n", str);
+}
+
+void stats_print() {
+    mbed_stats_heap_t heap_stats;
+    mbed_stats_heap_get(&heap_stats);
+    printf("Heap current: %lu reserved: %lu max: %lu\r\n", heap_stats.current_size, heap_stats.reserved_size, heap_stats.max_size);
 }
 
 /**
@@ -105,9 +112,13 @@ void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
 
 int main(int argc, char **argv)
 {
+    mbed_mem_trace_set_callback(mbed_mem_trace_default_callback);
+
+    stats_print();
+
     ns_hal_init(app_stack_heap, APP_DEFINED_HEAP_SIZE, app_heap_error_handler, &heap_info);
 
-    mbed_trace_init(); // set up the tracing library
+    //mbed_trace_init(); // set up the tracing library
     //mbed_trace_print_function_set(trace_printer);
     //mbed_trace_config_set(TRACE_MODE_COLOR | APP_TRACE_LEVEL | TRACE_CARRIAGE_RETURN);
 

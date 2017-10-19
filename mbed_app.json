@@ -2,7 +2,7 @@
     "config": {
         "heap-size": {
              "help": "The amount of static RAM to reserve for nsdynmemlib heap",
-             "value": 100000
+             "value": 64000
         },
         "radio-type":{
             "help": "options are ATMEL, MCR20, SPIRIT1, EFR32",
@@ -84,7 +84,8 @@
         "EFR32FG12_SLWRB4254A": {
             "LED": "LED1",
             "SERIAL_TX": "PA2",
-            "SERIAL_RX": "PA3"
+            "SERIAL_RX": "PA3",
+            "mbed-trace.enable": false
         }
     },
     "macros": [
