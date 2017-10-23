@@ -64,6 +64,8 @@ void stats_print() {
  */
 void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
 {
+    stats_print();
+
 // Values allowed in "backhaul-driver" option
 #define ETH 0
 #define SLIP 1
