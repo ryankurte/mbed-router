@@ -64,6 +64,8 @@ void stats_print() {
  */
 void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
 {
+    printf("Backhaul driver init\n");
+
     stats_print();
 
 // Values allowed in "backhaul-driver" option
@@ -79,16 +81,16 @@ void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
 #endif
 
     if (pslipmacdriver == NULL) {
-        tr_error("Unable to create SLIP driver");
+        printf("Unable to create SLIP driver");
         return;
     }
 
-    tr_info("Using SLIP backhaul driver...");
+    printf("Using SLIP backhaul driver...");
 
 #ifdef MBED_CONF_APP_SLIP_SERIAL_BAUD_RATE
     slipdrv_id = pslipmacdriver->Slip_Init(mac, MBED_CONF_APP_SLIP_SERIAL_BAUD_RATE);
 #else
-    tr_warning("baud rate for slip not defined");
+    printf("baud rate for slip not defined");
 #endif
 
     if (slipdrv_id >= 0) {
@@ -96,9 +98,9 @@ void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
         return;
     }
 
-    tr_error("Backhaul driver init failed, retval = %d", slipdrv_id);
+    printf("Backhaul driver init failed, retval = %d", slipdrv_id);
 #elif MBED_CONF_APP_BACKHAUL_DRIVER == ETH
-    tr_info("Using ETH backhaul driver...");
+    printf("Using ETH backhaul driver...");
     arm_eth_phy_device_register(mac, backhaul_driver_status_cb);
     return;
 #else
@@ -114,15 +116,16 @@ void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
 
 int main(int argc, char **argv)
 {
+
     mbed_mem_trace_set_callback(mbed_mem_trace_default_callback);
 
     stats_print();
 
     ns_hal_init(app_stack_heap, APP_DEFINED_HEAP_SIZE, app_heap_error_handler, &heap_info);
 
-    //mbed_trace_init(); // set up the tracing library
+    mbed_trace_init(); // set up the tracing library
     //mbed_trace_print_function_set(trace_printer);
-    //mbed_trace_config_set(TRACE_MODE_COLOR | APP_TRACE_LEVEL | TRACE_CARRIAGE_RETURN);
+    mbed_trace_config_set(TRACE_MODE_PLAIN | APP_TRACE_LEVEL | TRACE_CARRIAGE_RETURN);
 
 
 #define BOARD 0
