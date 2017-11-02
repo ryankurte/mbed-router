@@ -6,7 +6,6 @@ OUTPUT=${OUTDIR}/EFR32FG12_BRD4254A/GCC_ARM/mbed-router
 BIN=${OUTPUT}.bin
 ELF=${OUTPUT}.elf
 
-configurefile = $(sed -ei '' 's/{DEVICE}/${DEVICE}/g' $0  $1)
 
 build-debug:
 	mbed-cli compile --profile mbed-os/tools/profiles/debug.json
@@ -19,9 +18,9 @@ build-release:
 
 ${OUTDIR}/%.jlink: toolchain/%.jlink
 	cp $< $@
-	sed -i '' 's|$${DEVICE}|${DEVICE}|g' $@
-	sed -i '' 's|$${BIN}|${BIN}|g' $@
-	sed -i '' 's|$${ELF}|${ELF}|g' $@
+	sed -i'' 's|$${DEVICE}|${DEVICE}|g' $@
+	sed -i'' 's|$${BIN}|${BIN}|g' $@
+	sed -i'' 's|$${ELF}|${ELF}|g' $@
 
 flash:
 	mbed-cli compile --flash

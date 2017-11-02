@@ -81,16 +81,14 @@
         "K66F": {
             "LED": "LED_GREEN"
         },
-        "EFR32FG12_SLWRB4254A": {
+        "EFR32FG12_BRD4254A": {
             "LED": "LED1",
-            "SERIAL_TX": "PA2",
-            "SERIAL_RX": "PA3",
-            "mbed-trace.enable": false
+            "SERIAL_TX": "PA6",
+            "SERIAL_RX": "PA7"
         }
     },
     "macros": [
         "DEBUG=1",
-        "MBED_TRACE_STATIC=1",
         "MBEDTLS_USER_CONFIG_FILE=\"mbedtls_config.h\"",
         "MBEDTLS_ENTROPY_HARDWARE_ALT",
         "DEVICE_TRNG=1",
