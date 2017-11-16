@@ -83,8 +83,8 @@
         },
         "EFR32FG12_BRD4254A": {
             "LED": "LED1",
-            "SERIAL_TX": "SERIAL_TX",
-            "SERIAL_RX": "SERIAL_RX"
+            "SERIAL_TX": "PA6",
+            "SERIAL_RX": "PA7"
         }
     },
     "macros": [
