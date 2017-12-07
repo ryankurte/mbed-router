@@ -1,0 +1,7 @@
+---
+# mbed-router xprog configuration
+mode: flash
+device: EFR32FG12P433F1024GL125 
+binary: BUILD/EFR32FG12_BRD4254A/GCC_ARM/mbed-router.bin 
+serial: 
+  - 440098509

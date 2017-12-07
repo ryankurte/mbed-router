@@ -116,7 +116,7 @@ void backhaul_driver_init(void (*backhaul_driver_status_cb)(uint8_t, int8_t))
  * Sets up the application and starts the border router module.
  */
 
-Serial pc(PA6, PA7, 115200);
+//Serial pc(PA6, PA7, 115200);
 
 int main(int argc, char **argv)
 {
@@ -147,8 +147,6 @@ int main(int argc, char **argv)
         led_ticker.attach_us(toggle_led1, 500000);
     }
     border_router_tasklet_start();
-
-    pc.printf("Boop\n");
 }
 
 /**
